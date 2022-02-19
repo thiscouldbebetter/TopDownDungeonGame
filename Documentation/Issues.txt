@@ -1,0 +1,12 @@
+Issues
+======
+
+Player is a cyan square.
+No collisions with cave walls.
+The zones of the level seem misaligned by one pixel.
+No enemies.
+No combat.
+Only one level.
+No pickups.
+No doors.
+Everything is fully lighted.
