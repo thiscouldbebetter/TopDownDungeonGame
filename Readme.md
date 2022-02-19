@@ -19,4 +19,4 @@ To run the game, open the .html file in the Source directory in a web browser th
 Screenshots
 -----------
 
-(Place screenshots here.)
+<img src="Screenshots/Screenshot.png" />
