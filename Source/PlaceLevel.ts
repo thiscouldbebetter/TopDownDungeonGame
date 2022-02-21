@@ -142,6 +142,7 @@ class PlaceLevel extends PlaceZoned
 
 				var zoneWallGroup = new WallGroup
 				(
+					uwpe.universe,
 					zoneSize.clone().half(),
 					imageForZone
 				);

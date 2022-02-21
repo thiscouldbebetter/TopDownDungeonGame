@@ -119,7 +119,8 @@ import Wedge = gf.Wedge;
 
 // Geometry - Shapes - Map.
 import MapCell = gf.MapCell;
-import MapLocated = gf.MapLocated;
+import MapCellCollidable = gf.MapCellCollidable;
+import MapLocated2 = gf.MapLocated2;
 import MapOfCells = gf.MapOfCells;
 import MapOfCellsCellSourceDisplay = gf.MapOfCellsCellSourceDisplay;
 

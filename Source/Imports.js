@@ -93,7 +93,8 @@ var ShapeInverse = gf.ShapeInverse;
 var Shell = gf.Shell;
 var Sphere = gf.Sphere;
 var Wedge = gf.Wedge;
-var MapLocated = gf.MapLocated;
+var MapCellCollidable = gf.MapCellCollidable;
+var MapLocated2 = gf.MapLocated2;
 var MapOfCells = gf.MapOfCells;
 var MapOfCellsCellSourceDisplay = gf.MapOfCellsCellSourceDisplay;
 // Geometry - Shapes - Meshes.

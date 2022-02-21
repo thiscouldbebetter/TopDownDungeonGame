@@ -12,7 +12,7 @@ class Player extends Entity
 
 		var collidable = Collidable.fromColliderAndCollideEntities
 		(
-			Box.fromSize(Coords.ones().multiplyScalar(10)),
+			Box.fromSize(Coords.ones().multiplyScalar(2)),
 			Collidable.collideEntitiesLog
 		);
 
@@ -48,7 +48,7 @@ class Player extends Entity
 
 		var locatable = Locatable.fromPos(pos);
 
-		var movable = Movable.fromSpeedMax(1);
+		var movable = Movable.fromSpeedMax(2);
 
 		var constrainable = new Constrainable
 		([

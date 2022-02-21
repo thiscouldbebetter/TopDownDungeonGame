@@ -62,6 +62,7 @@
   "exclude" :
   [
     "Framework/Source/Imports.ts",
+    "Framework/Source/main.ts",
     "Framework/Source/Demo/",
     "Framework/Stub/",
     "Framework/Tests/"

@@ -3,7 +3,7 @@ class Player extends Entity {
     constructor(pos) {
         var actor = Actor.fromActivityDefnName(UserInputListener.activityDefn().name);
         var animatable = Animatable2.default();
-        var collidable = Collidable.fromColliderAndCollideEntities(Box.fromSize(Coords.ones().multiplyScalar(10)), Collidable.collideEntitiesLog);
+        var collidable = Collidable.fromColliderAndCollideEntities(Box.fromSize(Coords.ones().multiplyScalar(2)), Collidable.collideEntitiesLog);
         var drawableVisual = new VisualDeferred((uwpe) => {
             var visualImageSource = new VisualImageFromLibrary("Movers_Pawn-Gray");
             var imageSource = visualImageSource.image(uwpe.universe);
@@ -17,7 +17,7 @@ class Player extends Entity {
         });
         var drawable = Drawable.fromVisualAndRenderingOrder(drawableVisual, -1);
         var locatable = Locatable.fromPos(pos);
-        var movable = Movable.fromSpeedMax(1);
+        var movable = Movable.fromSpeedMax(2);
         var constrainable = new Constrainable([
             new Constraint_Stop(),
             movable.toConstraint(),

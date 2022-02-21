@@ -67,7 +67,7 @@ class PlaceLevel extends PlaceZoned {
                 );
                 */
                 var imageForZone = imagesForZones[y][x];
-                var zoneWallGroup = new WallGroup(zoneSize.clone().half(), imageForZone);
+                var zoneWallGroup = new WallGroup(uwpe.universe, zoneSize.clone().half(), imageForZone);
                 var zone = new Zone(zoneName, zoneBounds, zonesAdjacentNames, 
                 // entities
                 [
