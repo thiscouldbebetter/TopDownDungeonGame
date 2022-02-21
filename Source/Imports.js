@@ -40,9 +40,16 @@ var Display2D = gf.Display2D;
 var DisplayRecorder = gf.DisplayRecorder;
 var VenueFader = gf.VenueFader;
 var VenueLayered = gf.VenueLayered;
+// Display - Animation.
+var Animatable2 = gf.Animatable2;
 // Display - Visuals.
+var VisualAnimation = gf.VisualAnimation;
+var VisualBuilder = gf.VisualBuilder;
+var VisualDeferred = gf.VisualDeferred;
+var VisualDirectional = gf.VisualDirectional;
 var VisualGroup = gf.VisualGroup;
 var VisualImageFromLibrary = gf.VisualImageFromLibrary;
+var VisualImageImmediate = gf.VisualImageImmediate;
 var VisualImageScaled = gf.VisualImageScaled;
 var VisualImageScaledPartial = gf.VisualImageScaledPartial;
 var VisualNone = gf.VisualNone;
@@ -88,6 +95,7 @@ var Sphere = gf.Sphere;
 var Wedge = gf.Wedge;
 var MapLocated = gf.MapLocated;
 var MapOfCells = gf.MapOfCells;
+var MapOfCellsCellSourceDisplay = gf.MapOfCellsCellSourceDisplay;
 // Geometry - Shapes - Meshes.
 var Mesh = gf.Mesh;
 var Transform_Dynamic = gf.Transform_Dynamic;
@@ -107,6 +115,7 @@ var UserInputListener = gf.UserInputListener;
 // Media.
 var Audible = gf.Audible;
 var Font = gf.Font;
+var FontNameAndHeight = gf.FontNameAndHeight;
 var Image2 = gf.Image2; // Name conflicts with a built-in class.
 var MediaLibrary = gf.MediaLibrary;
 var SoundHelperLive = gf.SoundHelperLive;

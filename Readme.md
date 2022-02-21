@@ -13,7 +13,7 @@ To build the game, make sure the "tsc" command is installed, then run it from wi
 Running
 -------
 
-To run the game, open the .html file in the Source directory in a web browser that runs JavaScript.
+To run the game, copy the repository directory to a local web server and navigate to the .html file in the Source directory in a web browser that runs JavaScript.
 
 
 Screenshots

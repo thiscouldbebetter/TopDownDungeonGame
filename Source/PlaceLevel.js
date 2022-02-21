@@ -1,22 +1,21 @@
 "use strict";
 class PlaceLevel extends PlaceZoned {
-    constructor(name, zones) {
-        var zonesByName = ArrayHelper.addLookupsByName(zones);
-        super(name, PlaceLevel.defnBuild().name, Box.create().containOthers(zones.map(x => x.bounds)).size, "Player", // entityToFollowName,
-        zones[0].name, // zoneStartName
+    constructor(name, size, player) {
+        super(name, PlaceLevel.defnBuild().name, size, // Box.create().containOthers(zones.map(x => x.bounds)).size,
+        "Player", // entityToFollowName,
+        // zones[0].name, // zoneStartName
         // zoneGetByName
         (zoneName) => {
-            return zonesByName.get(zoneName);
+            return this.zonesByName.get(zoneName);
         }, 
         // zoneAtPos
         (posToCheck) => {
-            return zones.find(x => x.bounds.containsPointXY(posToCheck));
+            return this.zones.find(x => x.bounds.containsPointXY(posToCheck));
         });
-        var zoneStart = this.zoneStart();
-        var zoneStartCenter = zoneStart.bounds.center;
-        var player = new Player(zoneStartCenter.clone());
+        // var zoneStart = this.zoneStart();
+        // var zoneStartCenter = zoneStart.bounds.center;
         this.entityToSpawnAdd(player);
-        var camera = Camera.fromEntitiesInViewSort(Camera.entitiesSortByZThenY);
+        var camera = Camera.fromEntitiesInViewSort(Camera.entitiesSortByRenderingOrderThenZThenY);
         var cameraEntity = camera.toEntity();
         cameraEntity.constrainable().constraintAdd(new Constraint_Multiple([
             new Constraint_AttachToEntityWithName(Player.name),
@@ -25,9 +24,16 @@ class PlaceLevel extends PlaceZoned {
         this.entityToSpawnAdd(cameraEntity);
     }
     static demo(levelName) {
-        var zoneSize = Coords.fromXY(400, 300);
-        var visualImageForLevel = new VisualImageFromLibrary("Levels_" + levelName);
-        var placeSizeInZones = Coords.fromXY(2, 2);
+        return new PlaceLevel(levelName, Coords.fromXY(800, 600), // size
+        new Player(Coords.fromXY(200, 150)));
+    }
+    initialize(uwpe) {
+        // todo
+        var placeSizeInZones = new Coords(2, 2, 1);
+        var zoneSize = this.size.clone().divide(placeSizeInZones);
+        var visualImageForLevel = new VisualImageFromLibrary("Levels_" + this.name);
+        var imageForLevel = visualImageForLevel.image(uwpe.universe);
+        var imagesForZones = imageForLevel.toTiles(placeSizeInZones);
         var zonePosInZones = Coords.create();
         var zones = new Array();
         for (var y = 0; y < placeSizeInZones.y; y++) {
@@ -52,16 +58,26 @@ class PlaceLevel extends PlaceZoned {
                     }
                 }
                 var zoneName = zonePosInZones.toStringXY();
+                /*
+                var zoneWallGroupVisual = new VisualImageScaledPartial
+                (
+                    zoneBounds,
+                    zoneSize,
+                    visualImageForLevel
+                );
+                */
+                var imageForZone = imagesForZones[y][x];
+                var zoneWallGroup = new WallGroup(zoneSize.clone().half(), imageForZone);
                 var zone = new Zone(zoneName, zoneBounds, zonesAdjacentNames, 
                 // entities
                 [
-                    new WallGroup(zoneSize.clone().half(), new VisualImageScaledPartial(zoneBounds, zoneSize, visualImageForLevel))
+                    zoneWallGroup
                 ]);
                 zones.push(zone);
             }
         }
-        var placeLevel0 = new PlaceLevel("Level" + levelName, zones);
-        return placeLevel0;
+        this.zones = zones;
+        this.zonesByName = ArrayHelper.addLookupsByName(this.zones);
     }
     static defnBuild() {
         var actionDisplayRecorderStartStop = DisplayRecorder.actionStartStop();

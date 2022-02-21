@@ -17,9 +17,7 @@ class Game {
             // Wrap.
             new Coords(200, 150, 1),
         ];
-        var display = new Display2D(displaySizesAvailable, "Font", // fontName
-        10, // fontHeightInPixels
-        Color.byName("Gray"), Color.byName("White"), // colorFore, colorBack
+        var display = new Display2D(displaySizesAvailable, new FontNameAndHeight("Font", 10), Color.byName("Gray"), Color.byName("White"), // colorFore, colorBack
         null);
         var timerHelper = new TimerHelper(20);
         var controlBuilder = ControlBuilder.default();
@@ -38,11 +36,13 @@ class Game {
         var textStringDirectoryPath = contentDirectoryPath + "Text/";
         var videoDirectoryPath = contentDirectoryPath + "Video/";
         var levelsDirectoryPath = imageDirectoryPath + "Levels/";
+        var moversDirectoryPath = imageDirectoryPath + "Movers/";
         var mediaFilePaths = [
             imageTitlesDirectoryPath + "Opening.png",
             imageTitlesDirectoryPath + "Producer.png",
             imageTitlesDirectoryPath + "Title.png",
             levelsDirectoryPath + "0.png",
+            moversDirectoryPath + "Pawn-Gray.png",
             soundEffectDirectoryPath + "Sound.wav",
             soundMusicDirectoryPath + "Music.mp3",
             soundMusicDirectoryPath + "Producer.mp3",

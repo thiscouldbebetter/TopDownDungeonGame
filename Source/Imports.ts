@@ -52,10 +52,20 @@ import VenueLayered = gf.VenueLayered;
 import Visual = gf.Visual;
 import VisualBase = gf.VisualBase;
 
+// Display - Animation.
+
+import Animatable2 = gf.Animatable2;
+
 // Display - Visuals.
 
+import VisualAnimation = gf.VisualAnimation;
+import VisualBuilder = gf.VisualBuilder;
+import VisualDeferred = gf.VisualDeferred;
+import VisualDirectional = gf.VisualDirectional;
 import VisualGroup = gf.VisualGroup;
+import VisualImage = gf.VisualImage;
 import VisualImageFromLibrary = gf.VisualImageFromLibrary;
+import VisualImageImmediate = gf.VisualImageImmediate;
 import VisualImageScaled = gf.VisualImageScaled;
 import VisualImageScaledPartial = gf.VisualImageScaledPartial;
 import VisualNone = gf.VisualNone;
@@ -111,6 +121,7 @@ import Wedge = gf.Wedge;
 import MapCell = gf.MapCell;
 import MapLocated = gf.MapLocated;
 import MapOfCells = gf.MapOfCells;
+import MapOfCellsCellSourceDisplay = gf.MapOfCellsCellSourceDisplay;
 
 // Geometry - Shapes - Meshes.
 import Mesh = gf.Mesh;
@@ -137,6 +148,7 @@ import UserInputListener = gf.UserInputListener;
 // Media.
 import Audible = gf.Audible;
 import Font = gf.Font;
+import FontNameAndHeight = gf.FontNameAndHeight;
 import Image2 = gf.Image2;  // Name conflicts with a built-in class.
 import MediaLibrary = gf.MediaLibrary;
 import Sound = gf.Sound;

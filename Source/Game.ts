@@ -31,8 +31,7 @@ class Game
 		var display = new Display2D
 		(
 			displaySizesAvailable,
-			"Font", // fontName
-			10, // fontHeightInPixels
+			new FontNameAndHeight("Font", 10),
 			Color.byName("Gray"), Color.byName("White"), // colorFore, colorBack
 			null
 		);
@@ -75,6 +74,7 @@ class Game
 		var videoDirectoryPath = contentDirectoryPath + "Video/";
 
 		var levelsDirectoryPath = imageDirectoryPath + "Levels/";
+		var moversDirectoryPath = imageDirectoryPath + "Movers/";
 
 		var mediaFilePaths =
 		[
@@ -83,6 +83,8 @@ class Game
 			imageTitlesDirectoryPath + "Title.png",
 
 			levelsDirectoryPath + "0.png",
+
+			moversDirectoryPath + "Pawn-Gray.png",
 
 			soundEffectDirectoryPath + "Sound.wav",
 

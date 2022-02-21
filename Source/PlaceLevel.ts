@@ -1,41 +1,39 @@
 
 class PlaceLevel extends PlaceZoned
 {
-	constructor
-	(
-		name: string,
-		zones: Zone[]
-	)
-	{
-		var zonesByName = ArrayHelper.addLookupsByName(zones);
+	image: Image2;
 
+	zones: Zone[];
+	zonesByName: Map<string, Zone>;
+
+	constructor(name: string, size: Coords, player: Player)
+	{
 		super
 		(
 			name,
 			PlaceLevel.defnBuild().name,
-			Box.create().containOthers(zones.map(x => x.bounds)).size,
+			size, // Box.create().containOthers(zones.map(x => x.bounds)).size,
 			"Player", // entityToFollowName,
-			zones[0].name, // zoneStartName
+			// zones[0].name, // zoneStartName
 			// zoneGetByName
 			(zoneName: string) =>
 			{
-				return zonesByName.get(zoneName);
+				return this.zonesByName.get(zoneName);
 			},
 			// zoneAtPos
 			(posToCheck: Coords) =>
 			{
-				return zones.find(x => x.bounds.containsPointXY(posToCheck));
+				return this.zones.find(x => x.bounds.containsPointXY(posToCheck));
 			}
 		);
 
-		var zoneStart = this.zoneStart();
-		var zoneStartCenter = zoneStart.bounds.center;
-		var player = new Player(zoneStartCenter.clone());
+		// var zoneStart = this.zoneStart();
+		// var zoneStartCenter = zoneStart.bounds.center;
 		this.entityToSpawnAdd(player);
 
 		var camera = Camera.fromEntitiesInViewSort
 		(
-			Camera.entitiesSortByZThenY
+			Camera.entitiesSortByRenderingOrderThenZThenY
 		);
 		var cameraEntity = camera.toEntity();
 		cameraEntity.constrainable().constraintAdd
@@ -58,14 +56,27 @@ class PlaceLevel extends PlaceZoned
 
 	static demo(levelName: string): PlaceLevel
 	{
-		var zoneSize = Coords.fromXY(400, 300);
+		return new PlaceLevel
+		(
+			levelName,
+			Coords.fromXY(800, 600), // size
+			new Player(Coords.fromXY(200, 150))
+		);
+	}
+
+	initialize(uwpe: UniverseWorldPlaceEntities): void
+	{
+		// todo
+		var placeSizeInZones = new Coords(2, 2, 1);
+		var zoneSize = this.size.clone().divide(placeSizeInZones);
 
 		var visualImageForLevel = new VisualImageFromLibrary
 		(
-			"Levels_" + levelName
+			"Levels_" + this.name
 		);
 
-		var placeSizeInZones = Coords.fromXY(2, 2);
+		var imageForLevel = visualImageForLevel.image(uwpe.universe);
+		var imagesForZones = imageForLevel.toTiles(placeSizeInZones);
 
 		var zonePosInZones = Coords.create();
 
@@ -118,6 +129,23 @@ class PlaceLevel extends PlaceZoned
 
 				var zoneName = zonePosInZones.toStringXY();
 
+				/*
+				var zoneWallGroupVisual = new VisualImageScaledPartial
+				(
+					zoneBounds,
+					zoneSize,
+					visualImageForLevel
+				);
+				*/
+
+				var imageForZone = imagesForZones[y][x];
+
+				var zoneWallGroup = new WallGroup
+				(
+					zoneSize.clone().half(),
+					imageForZone
+				);
+
 				var zone = new Zone
 				(
 					zoneName,
@@ -125,16 +153,7 @@ class PlaceLevel extends PlaceZoned
 					zonesAdjacentNames,
 					// entities
 					[
-						new WallGroup
-						(
-							zoneSize.clone().half(),
-							new VisualImageScaledPartial
-							(
-								zoneBounds,
-								zoneSize,
-								visualImageForLevel
-							)
-						)
+						zoneWallGroup
 					]
 				);
 
@@ -142,14 +161,8 @@ class PlaceLevel extends PlaceZoned
 			}
 		}
 
-		var placeLevel0 = new PlaceLevel
-		(
-			"Level" + levelName,
-			zones
-		);
-
-		return placeLevel0;
-
+		this.zones = zones;
+		this.zonesByName = ArrayHelper.addLookupsByName(this.zones);
 	}
 
 	static defnBuild(): PlaceDefn
