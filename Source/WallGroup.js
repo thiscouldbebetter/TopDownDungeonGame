@@ -1,15 +1,15 @@
 "use strict";
 class WallGroup extends Entity {
-    constructor(universe, pos, image) {
-        var name = WallGroup.name + image.name;
-        var collidableImageSizeInPixels = image.sizeInPixels;
-        var collidableImageAsDisplay = Display2D.fromImage(image);
+    constructor(universe, pos, imageCollidable, imageVisualFloorAndWalls) {
+        var name = WallGroup.name + imageCollidable.name;
+        var collidableImageSizeInPixels = imageCollidable.sizeInPixels;
+        var collidableImageAsDisplay = Display2D.fromImage(imageCollidable);
         var collidableMapCellSource = new MapOfCellsCellSourceDisplay(collidableImageAsDisplay, () => new MapCellObstacle(), (cell, color) => cell.isBlocking = (color.value() <= .5));
         var collidableMap = new MapOfCells(name, collidableImageSizeInPixels, Coords.ones(), // cellSize
         collidableMapCellSource);
         var collidableMapLocated = MapLocated2.fromMap(collidableMap);
         var collidable = Collidable.fromColliderAndCollideEntities(collidableMapLocated, WallGroup.collideEntities);
-        var drawableVisual = VisualImageImmediate.fromImage(image);
+        var drawableVisual = VisualImageImmediate.fromImage(imageVisualFloorAndWalls);
         var drawable = Drawable.fromVisual(drawableVisual);
         var locatable = Locatable.fromPos(pos);
         super(name, [

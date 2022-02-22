@@ -82,7 +82,8 @@ class Game
 			imageTitlesDirectoryPath + "Producer.png",
 			imageTitlesDirectoryPath + "Title.png",
 
-			levelsDirectoryPath + "0.png",
+			levelsDirectoryPath + "0/Collidable.png",
+			levelsDirectoryPath + "0/Visual.png",
 
 			moversDirectoryPath + "Pawn-Gray.png",
 

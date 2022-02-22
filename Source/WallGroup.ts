@@ -1,12 +1,20 @@
 
 class WallGroup extends Entity
 {
-	constructor(universe: Universe, pos: Coords, image: Image2)
+	constructor
+	(
+		universe: Universe,
+		pos: Coords,
+		imageCollidable: Image2,
+		imageVisualFloorAndWalls: Image2
+	)
 	{
-		var name = WallGroup.name + image.name;
-		var collidableImageSizeInPixels = image.sizeInPixels;
+		var name = WallGroup.name + imageCollidable.name;
+
+		var collidableImageSizeInPixels = imageCollidable.sizeInPixels;
 		var collidableImageAsDisplay =
-			Display2D.fromImage(image);
+			Display2D.fromImage(imageCollidable);
+
 		var collidableMapCellSource = new MapOfCellsCellSourceDisplay
 		(
 			collidableImageAsDisplay,
@@ -31,7 +39,7 @@ class WallGroup extends Entity
 
 		var drawableVisual = VisualImageImmediate.fromImage
 		(
-			image
+			imageVisualFloorAndWalls
 		);
 		var drawable = Drawable.fromVisual(drawableVisual);
 
@@ -55,7 +63,6 @@ class WallGroup extends Entity
 			uwpe.entity, uwpe.entity2, 4 // hack - Has to be at least twice move speed.
 		);
 	}
-
 }
 
 class MapCellObstacle implements MapCell

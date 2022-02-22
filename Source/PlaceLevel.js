@@ -1,10 +1,7 @@
 "use strict";
 class PlaceLevel extends PlaceZoned {
-    constructor(name, size, player) {
-        super(name, PlaceLevel.defnBuild().name, size, // Box.create().containOthers(zones.map(x => x.bounds)).size,
-        "Player", // entityToFollowName,
-        // zones[0].name, // zoneStartName
-        // zoneGetByName
+    constructor(name, size, sizeInZones, player) {
+        super(name, PlaceLevel.defnBuild().name, size, "Player", // entityToFollowName,
         (zoneName) => {
             return this.zonesByName.get(zoneName);
         }, 
@@ -12,8 +9,7 @@ class PlaceLevel extends PlaceZoned {
         (posToCheck) => {
             return this.zones.find(x => x.bounds.containsPointXY(posToCheck));
         });
-        // var zoneStart = this.zoneStart();
-        // var zoneStartCenter = zoneStart.bounds.center;
+        this.sizeInZones = sizeInZones;
         this.entityToSpawnAdd(player);
         var camera = Camera.fromEntitiesInViewSort(Camera.entitiesSortByRenderingOrderThenZThenY);
         var cameraEntity = camera.toEntity();
@@ -25,20 +21,22 @@ class PlaceLevel extends PlaceZoned {
     }
     static demo(levelName) {
         return new PlaceLevel(levelName, Coords.fromXY(800, 600), // size
+        new Coords(2, 2, 1), // sizeInTiles
         new Player(Coords.fromXY(200, 150)));
     }
     initialize(uwpe) {
-        // todo
-        var placeSizeInZones = new Coords(2, 2, 1);
-        var zoneSize = this.size.clone().divide(placeSizeInZones);
-        var visualImageForLevel = new VisualImageFromLibrary("Levels_" + this.name);
-        var imageForLevel = visualImageForLevel.image(uwpe.universe);
-        var imagesForZones = imageForLevel.toTiles(placeSizeInZones);
+        var zoneSize = this.size.clone().divide(this.sizeInZones);
+        var visualImageForLevelCollidable = new VisualImageFromLibrary("Levels_" + this.name + "_Collidable");
+        var visualImageForLevelVisual = new VisualImageFromLibrary("Levels_" + this.name + "_Visual");
+        var imageForLevelCollidable = visualImageForLevelCollidable.image(uwpe.universe);
+        var imageForLevelVisual = visualImageForLevelVisual.image(uwpe.universe);
+        var imagesForZonesCollidable = imageForLevelCollidable.toTiles(this.sizeInZones);
+        var imagesForZonesVisual = imageForLevelVisual.toTiles(this.sizeInZones);
         var zonePosInZones = Coords.create();
         var zones = new Array();
-        for (var y = 0; y < placeSizeInZones.y; y++) {
+        for (var y = 0; y < this.sizeInZones.y; y++) {
             zonePosInZones.y = y;
-            for (var x = 0; x < placeSizeInZones.x; x++) {
+            for (var x = 0; x < this.sizeInZones.x; x++) {
                 zonePosInZones.x = x;
                 var zoneBounds = Box.fromMinAndSize(zonePosInZones.clone().multiply(zoneSize), zoneSize);
                 var zonesAdjacentNames = [];
@@ -50,7 +48,8 @@ class PlaceLevel extends PlaceZoned {
                         neighborOffsetInZones.x = xOffset;
                         if (neighborOffsetInZones.magnitude() != 0) {
                             neighborPosInZones.overwriteWith(neighborOffsetInZones).add(zonePosInZones);
-                            if (neighborPosInZones.isInRangeMaxExclusiveXY(placeSizeInZones)) {
+                            var isNeighborInMapBounds = neighborPosInZones.isInRangeMaxExclusiveXY(this.sizeInZones);
+                            if (isNeighborInMapBounds) {
                                 var neighborName = neighborPosInZones.toStringXY();
                                 zonesAdjacentNames.push(neighborName);
                             }
@@ -58,16 +57,9 @@ class PlaceLevel extends PlaceZoned {
                     }
                 }
                 var zoneName = zonePosInZones.toStringXY();
-                /*
-                var zoneWallGroupVisual = new VisualImageScaledPartial
-                (
-                    zoneBounds,
-                    zoneSize,
-                    visualImageForLevel
-                );
-                */
-                var imageForZone = imagesForZones[y][x];
-                var zoneWallGroup = new WallGroup(uwpe.universe, zoneSize.clone().half(), imageForZone);
+                var imageForZoneCollidable = imagesForZonesCollidable[y][x];
+                var imageForZoneVisual = imagesForZonesVisual[y][x];
+                var zoneWallGroup = new WallGroup(uwpe.universe, zoneSize.clone().half(), imageForZoneCollidable, imageForZoneVisual);
                 var zone = new Zone(zoneName, zoneBounds, zonesAdjacentNames, 
                 // entities
                 [
