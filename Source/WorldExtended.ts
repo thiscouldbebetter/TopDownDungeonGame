@@ -5,14 +5,18 @@ class WorldExtended extends World
 	{
 		var placeLevel0 = PlaceLevel.demo("0");
 
+		var places =
+		[
+			placeLevel0
+		];
+
 		super
 		(
 			"DungeonQuestGame",
 			DateTime.now(),
 			WorldExtended.defnBuild(),
-			[
-				placeLevel0
-			]
+			(placeName: string) => places.find(x => x.name == placeName), // placeGetByName
+			placeLevel0.name // placeInitial
 		);
 	}
 
